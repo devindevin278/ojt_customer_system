@@ -29,11 +29,14 @@ public class ProductController {
     }
 
     @PostMapping("addProduct")
-    public Product addProduct(@RequestParam Long cin, @RequestParam Long product_id) {
-        return productService.addProduct(cin, product_id);
+    public Product addProduct(@RequestParam Long cin, @RequestParam Long product_id, @RequestParam Long account_id) {
+        return productService.addProduct(cin, product_id, account_id);
 //        return cin.toString();
     }
 
-//    @GetMapping("")
+    @PostMapping("closeProduct")
+    public Product closeProduct(@RequestParam Long account_id, @RequestParam Long product_id) {
+        return productService.closeProduct(account_id, product_id);
+    }
 
 }
