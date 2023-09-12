@@ -1,4 +1,4 @@
-package com.customerSystem.customerSystem.model;
+package com.customersystem.customersystem.model;
 
 import jakarta.persistence.*;
 

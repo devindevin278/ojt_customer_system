@@ -1,7 +1,7 @@
-package com.customerSystem.customerSystem.controller;
+package com.customersystem.customersystem.controller;
 
-import com.customerSystem.customerSystem.model.Product;
-import com.customerSystem.customerSystem.service.ProductService;
+import com.customersystem.customersystem.model.Product;
+import com.customersystem.customersystem.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

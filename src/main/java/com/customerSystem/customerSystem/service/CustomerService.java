@@ -1,8 +1,8 @@
-package com.customerSystem.customerSystem.service;
+package com.customersystem.customersystem.service;
 
 
-import com.customerSystem.customerSystem.model.Customer;
-import com.customerSystem.customerSystem.repository.CustomerRepository;
+import com.customersystem.customersystem.model.Customer;
+import com.customersystem.customersystem.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,9 +1,7 @@
-package com.customerSystem.customerSystem.model;
+package com.customersystem.customersystem.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 import java.io.Serializable;
 import java.util.Objects;

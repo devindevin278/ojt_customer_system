@@ -1,19 +1,18 @@
-package com.customerSystem.customerSystem.service;
+package com.customersystem.customersystem.service;
 
-import com.customerSystem.customerSystem.controller.ProductController;
-import com.customerSystem.customerSystem.model.Customer;
-import com.customerSystem.customerSystem.model.Product;
-import com.customerSystem.customerSystem.model.Product_ProductType;
-import com.customerSystem.customerSystem.model.Status;
-import com.customerSystem.customerSystem.repository.CustomerRepository;
-import com.customerSystem.customerSystem.repository.ProductRepository;
-//import com.customerSystem.customerSystem.repository.ProductTypeRepository;
-import com.customerSystem.customerSystem.repository.StatusRepository;
+import com.customersystem.customersystem.model.Customer;
+import com.customersystem.customersystem.model.Product;
+import com.customersystem.customersystem.model.Product_ProductType;
+import com.customersystem.customersystem.model.Status;
+import com.customersystem.customersystem.repository.CustomerRepository;
+import com.customersystem.customersystem.repository.ProductRepository;
+//import com.customersystem.customersystem.repository.ProductTypeRepository;
+import com.customersystem.customersystem.repository.StatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -21,6 +20,10 @@ public class ProductService {
 //    private ProductTypeRepository productTypeRepository;
     private CustomerRepository customerRepository;
     private StatusRepository statusRepository;
+    @Value("${endpoint.find_deposit}")
+    private String find_deposit;
+    @Value("${endpoint.find_loan}")
+    private String find_loan;
 
     @Autowired
     public ProductService(ProductRepository productRepository, CustomerRepository customerRepository, StatusRepository statusRepository) {
@@ -40,7 +43,17 @@ public class ProductService {
 
 
     public Product addProduct(Long cin, Long product_id, Long account_id) {
-//        ProductType productType = (ProductType) productTypeRepository.findById(product_id).orElse(null);
+        String url;
+
+//        cari dulu di deposit system dan loan system
+        if(product_id == 1) {
+            url = find_deposit;
+        } else {
+            url = find_loan;
+        }
+
+
+
         Customer customer = customerRepository.findById(cin).orElse(null);
         Product_ProductType compositekey = new Product_ProductType(account_id, product_id);
         Status open = statusRepository.findById((long)1).orElse(null);

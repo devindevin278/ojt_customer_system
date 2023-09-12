@@ -1,7 +1,6 @@
-package com.customerSystem.customerSystem.repository;
+package com.customersystem.customersystem.repository;
 
-import com.customerSystem.customerSystem.model.Customer;
-import com.customerSystem.customerSystem.model.Product;
+import com.customersystem.customersystem.model.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

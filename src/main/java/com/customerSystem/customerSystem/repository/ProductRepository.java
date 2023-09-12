@@ -1,10 +1,8 @@
-package com.customerSystem.customerSystem.repository;
+package com.customersystem.customersystem.repository;
 
-import com.customerSystem.customerSystem.model.Customer;
-import com.customerSystem.customerSystem.model.Product;
-import com.customerSystem.customerSystem.model.Product_ProductType;
+import com.customersystem.customersystem.model.Product;
+import com.customersystem.customersystem.model.Product_ProductType;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

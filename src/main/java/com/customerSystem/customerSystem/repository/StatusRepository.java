@@ -1,6 +1,6 @@
-package com.customerSystem.customerSystem.repository;
+package com.customersystem.customersystem.repository;
 
-import com.customerSystem.customerSystem.model.Status;
+import com.customersystem.customersystem.model.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StatusRepository extends JpaRepository<Status, Long> {

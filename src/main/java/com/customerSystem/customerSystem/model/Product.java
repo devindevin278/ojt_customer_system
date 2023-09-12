@@ -1,9 +1,8 @@
-package com.customerSystem.customerSystem.model;
+package com.customersystem.customersystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.util.Date;
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
 @Entity

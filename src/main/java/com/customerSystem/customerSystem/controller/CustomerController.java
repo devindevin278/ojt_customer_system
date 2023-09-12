@@ -1,7 +1,7 @@
-package com.customerSystem.customerSystem.controller;
+package com.customersystem.customersystem.controller;
 
-import com.customerSystem.customerSystem.model.Customer;
-import com.customerSystem.customerSystem.service.CustomerService;
+import com.customersystem.customersystem.model.Customer;
+import com.customersystem.customersystem.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,14 +47,15 @@ public class CustomerController {
         return customerService.updateCustomer(customer);
     }
 /*
-    {
-        "name":"Jevent",
-            "NIK":"1234567890",
-            "email":"jepeng@gmail.com",
-            "phone":"1234567",
-            "address":"Jln Foresta",
-            "DOB":"2002-01-10"
-    }
+        {
+         "cin":3
+            "name":"Jevent",
+                "NIK":"1234567890",
+                "email":"jepeng@gmail.com",
+                "phone":"1234567",
+                "address":"Jln Foresta",
+                "DOB":"2002-01-10"
+        }
 */
     @GetMapping("deleteCustomer/{id}")
     public String deleteCustomer(@PathVariable Long id) {
