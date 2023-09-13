@@ -10,7 +10,10 @@ import com.customersystem.customersystem.repository.ProductRepository;
 import com.customersystem.customersystem.repository.StatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -20,17 +23,19 @@ public class ProductService {
 //    private ProductTypeRepository productTypeRepository;
     private CustomerRepository customerRepository;
     private StatusRepository statusRepository;
+    private RestTemplate restTemplate;
     @Value("${endpoint.find_deposit}")
     private String find_deposit;
     @Value("${endpoint.find_loan}")
     private String find_loan;
 
     @Autowired
-    public ProductService(ProductRepository productRepository, CustomerRepository customerRepository, StatusRepository statusRepository) {
+    public ProductService(ProductRepository productRepository, CustomerRepository customerRepository, StatusRepository statusRepository, RestTemplate restTemplate) {
         this.productRepository = productRepository;
 //        this.productTypeRepository = productTypeRepository;
         this.customerRepository = customerRepository;
         this.statusRepository = statusRepository;
+        this.restTemplate = restTemplate;
     }
 
     public List<Product> findAll() {
@@ -47,20 +52,26 @@ public class ProductService {
 
 //        cari dulu di deposit system dan loan system
         if(product_id == 1) {
-            url = find_deposit;
+            url = find_deposit + account_id;
         } else {
-            url = find_loan;
+            url = find_loan + account_id;
         }
 
+        ResponseEntity<Object> responseEntity = restTemplate.getForEntity(url, Object.class);
 
+//        not found
+        if(responseEntity.getBody() ==  null) {
+            return null;
+        } else { // found
+            Customer customer = customerRepository.findById(cin).orElse(null);
+            Product_ProductType compositekey = new Product_ProductType(account_id, product_id);
+            Status open = statusRepository.findById((long)1).orElse(null);
 
-        Customer customer = customerRepository.findById(cin).orElse(null);
-        Product_ProductType compositekey = new Product_ProductType(account_id, product_id);
-        Status open = statusRepository.findById((long)1).orElse(null);
+            Product product = new Product(compositekey, null, customer, open);
 
-        Product product = new Product(compositekey, null, customer, open);
+            return productRepository.save(product);
+        }
 
-        return productRepository.save(product);
     }
 
     public Product closeProduct(Long account_id, Long product_id) {

@@ -31,7 +31,6 @@ public class ProductController {
     @PostMapping("addProduct")
     public Product addProduct(@RequestParam Long cin, @RequestParam Long product_id, @RequestParam Long account_id) {
         return productService.addProduct(cin, product_id, account_id);
-//        return cin.toString();
     }
 
     @PostMapping("closeProduct")
