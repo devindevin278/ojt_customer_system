@@ -17,10 +17,10 @@ public class Customer {
     private String NIK;
     private String email;
     private String phone;
-    private String Address;
+    private String address;
     private LocalDate DOB;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     private List<Product> products = new ArrayList<>();
 
 //    public List<Product> getProducts() {
@@ -36,8 +36,16 @@ public class Customer {
         this.NIK = NIK;
         this.email = email;
         this.phone = phone;
-        this.Address = address;
+        this.address = address;
         this.DOB = DOB;
+    }
+
+    public Customer(Long cin, String name, String email, String phone, String address) {
+        this.cin = cin;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
     }
 
     public Customer() {
@@ -84,11 +92,11 @@ public class Customer {
     }
 
     public String getAddress() {
-        return Address;
+        return address;
     }
 
     public void setAddress(String address) {
-        Address = address;
+        this.address = address;
     }
 
     public LocalDate getDOB() {
@@ -107,7 +115,7 @@ public class Customer {
                 ", NIK='" + NIK + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
-                ", Address='" + Address + '\'' +
+                ", Address='" + address + '\'' +
                 ", DOB=" + DOB +
                 '}';
     }

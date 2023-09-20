@@ -1,12 +1,10 @@
 package com.customersystem.customersystem.service;
 
-import com.customersystem.customersystem.model.Customer;
-import com.customersystem.customersystem.model.Product;
-import com.customersystem.customersystem.model.Product_ProductType;
-import com.customersystem.customersystem.model.Status;
+import com.customersystem.customersystem.model.*;
 import com.customersystem.customersystem.repository.CustomerRepository;
 import com.customersystem.customersystem.repository.ProductRepository;
 //import com.customersystem.customersystem.repository.ProductTypeRepository;
+import com.customersystem.customersystem.repository.ProductTypeRepository;
 import com.customersystem.customersystem.repository.StatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +18,7 @@ import java.util.List;
 @Service
 public class ProductService {
     private ProductRepository productRepository;
-//    private ProductTypeRepository productTypeRepository;
+    private ProductTypeRepository productTypeRepository;
     private CustomerRepository customerRepository;
     private StatusRepository statusRepository;
     private RestTemplate restTemplate;
@@ -30,9 +28,9 @@ public class ProductService {
     private String find_loan;
 
     @Autowired
-    public ProductService(ProductRepository productRepository, CustomerRepository customerRepository, StatusRepository statusRepository, RestTemplate restTemplate) {
+    public ProductService(ProductRepository productRepository, CustomerRepository customerRepository, StatusRepository statusRepository, RestTemplate restTemplate, ProductTypeRepository productTypeRepository) {
         this.productRepository = productRepository;
-//        this.productTypeRepository = productTypeRepository;
+        this.productTypeRepository = productTypeRepository;
         this.customerRepository = customerRepository;
         this.statusRepository = statusRepository;
         this.restTemplate = restTemplate;
@@ -48,26 +46,26 @@ public class ProductService {
 
 
     public Product addProduct(Long cin, Long product_id, Long account_id) {
-        String url;
 
-//        cari dulu di deposit system dan loan system
-        if(product_id == 1) {
-            url = find_deposit + account_id;
-        } else {
-            url = find_loan + account_id;
-        }
+        String url = (product_id == 1) ? find_deposit : find_loan;
 
-        ResponseEntity<Object> responseEntity = restTemplate.getForEntity(url, Object.class);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
+                .queryParam("account_id", account_id);
+
+        String finalUrl = builder.toUriString();
+
+        ResponseEntity<Object> responseEntity = restTemplate.postForEntity(finalUrl, null, Object.class);
 
 //        not found
         if(responseEntity.getBody() ==  null) {
             return null;
         } else { // found
             Customer customer = customerRepository.findById(cin).orElse(null);
-            Product_ProductType compositekey = new Product_ProductType(account_id, product_id);
+//            Product_ProductType compositekey = new Product_ProductType(account_id, product_id);
+            ProductType productType = productTypeRepository.findById(product_id).orElse(null);
             Status open = statusRepository.findById((long)1).orElse(null);
 
-            Product product = new Product(compositekey, null, customer, open);
+            Product product = new Product(account_id, productType, null, customer, open);
 
             return productRepository.save(product);
         }
@@ -75,8 +73,8 @@ public class ProductService {
     }
 
     public Product closeProduct(Long account_id, Long product_id) {
-        Product_ProductType compositekey = new Product_ProductType(account_id, product_id);
-        Product product = productRepository.findByCompositekey(compositekey);
+
+        Product product = productRepository.findByAccount_IdAndProductType_Id(account_id, product_id);
         Status closed = statusRepository.findById((long)2).orElse(null);
 
         product.setStatus(closed);

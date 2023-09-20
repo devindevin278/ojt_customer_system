@@ -45,6 +45,9 @@ public class CustomerService {
     public String deleteCustomer(Long id) {
         customerRepository.deleteById(id);
 
+//        call api deposit to delete all accounts by customer
+
+
         return "deleted";
     }
 
